@@ -23,7 +23,16 @@ function App() {
       setAlert(null);
     },2000);
   }
-  const toggleMode= ()=>{
+  const removeBodyClasses=()=>{
+    document.body.classList.remove('bg-light')
+    document.body.classList.remove('bg-dark')
+    document.body.classList.remove('bg-warning')
+    document.body.classList.remove('bg-danger')
+    document.body.classList.remove('bg-success')
+  }
+  const toggleMode= (cls)=>{
+    removeBodyClasses();
+    document.body.classList.add('bg-'+cls)
    if(mode=== 'light'){
 
       setMode('dark');
@@ -38,7 +47,7 @@ function App() {
   }
   return (
    <>
-   {/* <BrowserRouter> */}
+   <BrowserRouter>
    {/* <div>
     <Link to="/">Home</Link>
     <Link to="/about">About</Link>
@@ -46,18 +55,18 @@ function App() {
    </div> */}
       <Navbar title="TextUtils" mode={mode} about="About" toggleMode={toggleMode}/>
       <Alert alert={alert}/>
-    {/* <Routes> */}
-      {/* <Route path='/' element={<About/>}></Route> */}
+    <Routes>
+      <Route path='/about' element={<About mode={mode} />}></Route>
       {/* <Route path='/about' element={<About/>}></Route> */}
      
-      {/* <Route path='/textform' element= */}
-  {/* {<TextForm showAlert={showAlert} heading="Enter the text to analyze" mode={mode}/>}></Route>  */}
+      <Route path='/' element=
+   {<TextForm showAlert={showAlert} heading="Try TextUtils - Word Counter, Character Counter, Lower to Upper Case etc." mode={mode}/>}></Route>
 
-      {/* </Routes> */}
- {/* </BrowserRouter> */}
+      </Routes>
+ </BrowserRouter>
  {/* <Navbar title="TextUtils" mode={mode} about="About" toggleMode={toggleMode}/> */}
  {/* <Alert alert={alert}/> */}
-<TextForm showAlert={showAlert} heading="Enter the text to analyze" mode={mode}/>
+{/* <TextForm showAlert={showAlert} heading="Enter the text to analyze" mode={mode}/> */}
 
 
    <div className="container">

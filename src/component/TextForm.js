@@ -28,28 +28,33 @@ export function TextForm(props) {
       text.select();
      
       navigator.clipboard.writeText(text.value);
+      // to deselect selected range
+      document.getSelection().removeAllRanges();
+      props.showAlert("Text copied!", "success");
     }
 
     // #handleclearclick-----
     const handleClearClick=()=>{
       let newText=" ";
       setText(newText);
+      props.showAlert("Text has been cleared!", "success");
     }
 
     // #RemoveExtraSpaces-----
-    // const handleExtraSpaces = () => {
-    //   let newText = text.split(/[ ]+/);
-    //   setText(newText.join(" "))
-    // }
+    const handleExtraSpaces = () => {
+      let newText = text.split(/[ ]+/);
+      setText(newText.join(" "))
+      props.showAlert("Extra spaces has been removed!", "success");
+    }
     // const [text, setText] = useState('');
 
 
     // #capitalize function ---
-    const handleCapitalizeClick= ()=> {
-      let newText=text.charAt(0).toUpperCase() +
-      text.slice(1);
-      setText(newText);
-    }
+    // const handleCapitalizeClick= ()=> {
+    //   let newText=text.charAt(0).toUpperCase() +
+    //   text.slice(1);
+    //   setText(newText);
+    // }
     
     
 
@@ -61,22 +66,22 @@ export function TextForm(props) {
   return (
     <>
     <div className="container"  style={{color: props.mode==='dark'?'white':'#080a31'}}>
-      <h1>{props.heading}</h1>
+      <h2 className='mb-2'>{props.heading}</h2>
 <div className="mb-3">
  
-  <textarea className="form-control" value={text} style={{backgroundColor: props.mode==='dark'?'#080a31':'white', color: props.mode==='dark'?'white':'#080a31'}} onChange={handleOnChange} id="myBox" rows="8"></textarea>
+  <textarea className="form-control" value={text} style={{backgroundColor: props.mode==='dark'?'rgb(21 23 64)':'white', color: props.mode==='dark'?'white':'#080a31'}} onChange={handleOnChange} id="myBox" rows="8"></textarea>
 </div>
-<button className="btn btn-primary mx-1 my-2" onClick={handleUpClick}>Convert to Uppercase</button>
-<button className="btn btn-primary mx-1 my-2" onClick={handleLoClick}>Convert to Lowercase</button>
-<button className="btn btn-primary mx-1 my-2" onClick={handleClearClick}>ClearText</button>
-<button className="btn btn-primary mx-1 my-2" onClick={handleCapitalizeClick}>Capitalize</button>
-<button className="btn btn-primary mx-1 my-2" onClick={handleCopy}>CopyText</button>
-{/* <button className="btn btn-primary mx-1 my-2" onClick={handleExtraSpaces}>RemoveExtraSpaces</button> */}
+<button disabled={text.length===0} className="btn btn-primary mx-1 my-2" onClick={handleUpClick}>Convert to Uppercase</button>
+<button disabled={text.length===0} className="btn btn-primary mx-1 my-2" onClick={handleLoClick}>Convert to Lowercase</button>
+<button disabled={text.length===0} className="btn btn-primary mx-1 my-2" onClick={handleClearClick}>ClearText</button>
+{/* <button className="btn btn-primary mx-1 my-2" onClick={handleCapitalizeClick}>Capitalize</button> */}
+<button disabled={text.length===0} className="btn btn-primary mx-1 my-2" onClick={handleCopy}>CopyText</button>
+<button disabled={text.length===0} className="btn btn-primary mx-1 my-2" onClick={handleExtraSpaces}>RemoveExtraSpaces</button>
     </div>
     <div className="container my-2" style={{color: props.mode==='dark'?'white':'#080a31'}}>
         <h1>Your Text Summary</h1>
-        <p> {text.split(" ").length} words,{text.length} characters</p>
-        <p>{.008*text.split(" ").length} Minutes read</p>
+        <p> {text.split(" ").filter((element)=>{return element.length!==0;}).length} words,{text.length} characters</p>
+        <p>{.008*text.split(" ").filter((element)=>{return element.length!==0;}).length} Minutes read</p>
         <h2>Preview</h2>
         <p>{text.length>0?text:"Enter something  to preview it here"}</p>
     </div>
@@ -84,4 +89,4 @@ export function TextForm(props) {
   )
 }
 
-export default TextForm
+export default TextForm;
